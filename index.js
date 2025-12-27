@@ -1,3 +1,6 @@
+const modalEl = document.getElementById('modal')
+
+
 setTimeout(() => {
-    console.log('Modal Opened!')
+    modalEl.style.display = 'inline'
 }, 1500)
