@@ -13,7 +13,7 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.GITHUB.TOKEN }}
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
     - name: Add new year greeting to readme
       run: |
@@ -22,3 +22,10 @@ jobs:
         else
           echo "New Year greeting already exists in README"
         fi
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "oliwerx12@gmail.com"
+        git config --local user.name "${{ github.actor }}"
+        git add README.md
+        git diff --quiet && git diff --staged --quiet || (git commit -m "🎉 Add Happy New Year 2026 greeting" && git push)
