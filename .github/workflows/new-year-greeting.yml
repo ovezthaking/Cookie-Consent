@@ -28,7 +28,7 @@ jobs:
           echo "" >> README.md
           echo "" >> README.md
           echo "<!-- $MARKER -->" >> README.md
-          echo "## 🎉 Happy New Year ${{ steps.year.outputs.YEAR }}!!! 🎉" >> README.md
+          echo "\n## 🎉 Happy New Year ${{ steps.year.outputs.YEAR }}!!! 🎉" >> README.md
           echo "_Wishing you all the best in ${{ steps.year.outputs.YEAR }}!_" >> README.md
           echo "" >> README.md
         else
