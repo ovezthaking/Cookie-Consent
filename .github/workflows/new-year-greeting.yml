@@ -2,7 +2,7 @@ name: New Year Greeting
 
 on:
   schedule:
-    - cron: '0 0 1 1 *'
+    - cron: '0 0 1 1 *'  # Każdego roku 1 stycznia
   workflow_dispatch:
 
 jobs:
@@ -15,14 +15,24 @@ jobs:
       with:
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
+    - name: Get current year
+      id: year
+      run: echo "YEAR=$(date +'%Y')" >> $GITHUB_OUTPUT
+
     - name: Add new year greeting to readme
       run: |
-        GREETING=$'\n\n## Happy new year!!!\n_Wishing you all the best in 2026!_\n'
-
-        if ! grep -q "Happy new year!!!" README.md; then
-          printf "%s" "$GREETING" >> README.md
+        # Użyj znacznika dla danego roku aby uniknąć duplikatów
+        MARKER="HAPPY_NEW_YEAR_${{ steps.year.outputs.YEAR }}"
+        
+        if ! grep -q "$MARKER" README.md; then
+          echo "" >> README.md
+          echo "" >> README.md
+          echo "<!-- $MARKER -->" >> README.md
+          echo "## 🎉 Happy New Year ${{ steps.year.outputs.YEAR }}!!! 🎉" >> README.md
+          echo "_Wishing you all the best in ${{ steps.year.outputs.YEAR }}!_" >> README.md
+          echo "" >> README.md
         else
-          echo "New Year greeting already exists in README"
+          echo "New Year ${{ steps.year.outputs.YEAR }} greeting already exists in README"
         fi
 
     - name: Commit and push changes
@@ -30,4 +40,4 @@ jobs:
         git config --local user.email "oliwerx12@gmail.com"
         git config --local user.name "${{ github.actor }}"
         git add README.md
-        git diff --quiet && git diff --staged --quiet || (git commit -m "🎉 Add Happy New Year 2026 greeting" && git push)
+        git diff --quiet && git diff --staged --quiet || (git commit -m "🎉 Add Happy New Year ${{ steps.year.outputs.YEAR }} greeting" && git push)
