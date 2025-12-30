@@ -17,8 +17,10 @@ jobs:
 
     - name: Add new year greeting to readme
       run: |
+        GREETING=$'\n\n## 🎉 Happy new year!!! 🎉\n_Wishing you all the best in 2026!_\n'
+
         if ! grep -q "Happy new year!!!" README.md; then
-          echo -e "\n\n## 🎉 Happy new year!!! 🎉\n_Wishing you all the best in 2026!_" >> README.md
+          printf "%s" "$GREETING" >> README.md
         else
           echo "New Year greeting already exists in README"
         fi
