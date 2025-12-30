@@ -2,7 +2,7 @@ name: New Year Greeting
 
 on:
   schedule:
-    - cron: '0 0 1 1 *'  # Każdego roku 1 stycznia
+    - cron: '0 0 1 1 *'
   workflow_dispatch:
 
 jobs:
@@ -21,7 +21,6 @@ jobs:
 
     - name: Add new year greeting to readme
       run: |
-        # Użyj znacznika dla danego roku aby uniknąć duplikatów
         MARKER="HAPPY_NEW_YEAR_${{ steps.year.outputs.YEAR }}"
         
         if ! grep -q "$MARKER" README.md; then
